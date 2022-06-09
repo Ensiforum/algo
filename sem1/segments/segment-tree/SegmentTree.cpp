@@ -16,12 +16,13 @@
 // Также позволяет создавать подотрезки с нессиметричными частями left и right, что может быть полезно
 
 class Node {
-public:
+private:
     int size;
     int min;
     Node* left;
     Node* right;
-
+    
+public:
     Node(int value) {
         size = 1;
         min = value;
