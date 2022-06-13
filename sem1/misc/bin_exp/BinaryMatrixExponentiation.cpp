@@ -1,4 +1,4 @@
-﻿#include <vector>
+#include <vector>
 #include <algorithm>
 #include <type_traits>
 
@@ -101,6 +101,7 @@ public:
 	Matrix Exponentiate(int power) {
 		// Получаем представление степени в двоичном формате
 		std::vector<bool> bits = AsBinary(power);
+		std::reverse(bits.begin(), bits.end());
 
 		// Создаем единичную матрицу и матрицу для возведения в квадрат
 		Matrix* accumulatedAnswer = new Matrix(height, width);
