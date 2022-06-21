@@ -62,13 +62,13 @@ std::vector<Node<T>*> LcaToRmq(Graph<T> lcaTarget)
 {
     int nodesCount = lcaTarget.size + 1;
 
-	std::vector<int> firstVisit(nodesCount, -1);
-	std::vector<int> heights(nodesCount, 0);
+    std::vector<int> firstVisit(nodesCount, -1);
+    std::vector<int> heights(nodesCount, 0);
 
-	std::vector<Node<T>*> eulerTour();
-	eulerTour.reserve(nodesCount * 2);
+    std::vector<Node<T>*> eulerTour();
+    eulerTour.reserve(nodesCount * 2);
 
     Dfs(lcaTarget.head, -1, 0);
 
-	return eulerTour;
+    return eulerTour;
 }
