@@ -1,0 +1,120 @@
+#include <iostream>
+#include <vector>
+
+//fixed paths count
+
+//class that represents a matrix
+class Matrix {
+private:
+    std::vector<std::vector<int64_t>> matrixData;
+
+    Matrix multiplyMatrices(const Matrix &otherMatrix) {
+        const std::vector<std::vector<int64_t>>
+                otherMatrixData = otherMatrix.matrixData;
+
+        if (matrixData.size() == 0 || otherMatrixData.size() == 0) {
+            throw std::invalid_argument("received empty matrix");
+        }
+
+        const int heightOfThisMatrix = matrixData.size();
+        int widthOfThisMatrix = matrixData[0].size();
+
+
+        const int heightOfOtherMatrix = otherMatrixData.size();
+        int widthOfOtherMatrix = otherMatrixData[0].size();
+
+
+        if (!(heightOfThisMatrix == widthOfThisMatrix &&
+              heightOfOtherMatrix == widthOfOtherMatrix)) {
+            throw std::invalid_argument("received non-square matrix");
+        }
+
+        const int64_t matrixSize = otherMatrixData.size();
+        std::vector<std::vector<int64_t>> resultMatrixData(
+                matrixSize, std::vector<int64_t>(matrixSize, 0));
+
+        for (int64_t i = 0; i < matrixSize; i++) {
+            for (int64_t j = 0; j < matrixSize; j++) {
+                for (int64_t k = 0; k < matrixSize; k++) {
+                    resultMatrixData[i][j] +=
+                            matrixData[i][k] * otherMatrixData[k][j];
+                }
+            }
+        }
+
+        const Matrix result(resultMatrixData);
+
+        return result;
+    }
+
+public:
+    explicit Matrix(const std::vector<std::vector<int64_t>> &matrixData) {
+        this->matrixData = matrixData;
+    }
+
+    //does matrix exponentiation
+    Matrix matrixToPower(const Matrix &matrix, const int64_t power) {
+        std::vector<std::vector<int64_t>> inputMatrixData = matrix.matrixData;
+        Matrix resultMatrix(inputMatrixData);
+
+        if (power == 0) {
+            const int64_t size = inputMatrixData.size();
+            std::vector<std::vector<int64_t>> identityMatrixData
+                    (size, std::vector<int64_t>(size, 0));
+
+            for (int64_t i = 0; i < size; i++) {
+                identityMatrixData[i][i] = 1;
+            }
+
+            const Matrix identityMatrix(identityMatrixData);
+
+            return identityMatrix;
+        }
+
+        if (power % 2 == 0) {
+            resultMatrix = matrixToPower(resultMatrix, power / 2);
+            resultMatrix = resultMatrix.multiplyMatrices(resultMatrix);
+        } else {
+            Matrix poweredMatrix =
+                    resultMatrix.matrixToPower(resultMatrix, power - 1);
+            resultMatrix = poweredMatrix.multiplyMatrices(resultMatrix);
+        }
+
+        return resultMatrix;
+    }
+
+    std::vector<std::vector<int64_t>> getMatrixData() {
+        return matrixData;
+    }
+};
+
+
+//structure to hold route data
+struct RouteData {
+public:
+    int64_t routeLength;
+    std::vector<std::vector<int64_t>> routeMatrix;
+};
+
+
+//calculates fixedRouteCount
+int64_t calculateRouteCount(const RouteData &inputData) {
+    const int64_t routeLength = inputData.routeLength;
+    const std::vector<std::vector<int64_t>> matrixData =
+            inputData.routeMatrix;
+
+    Matrix matrix(matrixData);
+    matrix = matrix.matrixToPower(matrix, routeLength);
+
+
+    const std::vector<std::vector<int64_t>>
+            answerMatrixData = matrix.getMatrixData();
+
+    int64_t total = 0;
+
+    for (int64_t i = 0; i < answerMatrixData.size(); ++i) {
+        total += answerMatrixData[0][i];
+    }
+
+    return total;
+}
