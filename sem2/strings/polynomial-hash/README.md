@@ -39,4 +39,9 @@ Then how can we minimise the chances of a collision?
 
 Note that the hash of a string depends on two parameters: <b>p</b>  and <b>m</b>.</p>
 
-<h2></h2>
+<h2>Observation</h2>
+<p>If two strings produce the same hash values for a pair (p1, m1), they will produce different hashes for a different pair, (p2, m2)     .</p>
+
+<h2>Strategy</h2>
+<p>We cannot, however, nullify the chances of collision because there are infinitely many strings. But, surely, we can reduce the probability of two strings colliding.
+We can reduce the probability of collision by generating a pair of hashes for a given string.</p>
