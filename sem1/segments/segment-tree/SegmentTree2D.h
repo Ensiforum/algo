@@ -1,5 +1,8 @@
 /* Author: Oleh Toporkov */
 
+#pragma once
+#include <vector>
+
 /* Usage:
     const int INFINITY = 1'000'000'000;
 
