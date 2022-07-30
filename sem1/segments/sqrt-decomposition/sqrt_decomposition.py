@@ -20,7 +20,12 @@ def build_blocks(a: list):
 def query(a: list, left: int, right: int, blocks: list[int], diff_blocks: list[int] = None):
     n = len(a)
     block_size = math.ceil(math.sqrt(n))
-    diff_blocks = diff_blocks or [0] * block_size
+    diff_blocks = diff_blocks or [0] * block_size # diff_blocks - массив изменений на отрезке
+    '''
+    суть в том, что если число крайнее левое или крайнее правое, то left_block будет на один меньше(или right_block на один больше) 
+    и первый/последний цикл пропустится, а средний по честному посчитает ровно столько блоков,  
+    сколько нужно(допустим если у нас от первого до последнего элемента, то мы посчитаем от -1 блока до sqrt(n)+1)
+    '''
     left_block = (left - 1) // block_size
     right_block = (right + 1) // block_size
     result = 0
