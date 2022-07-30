@@ -1,3 +1,5 @@
+/* Author: Oleh Toporkov */
+
 class Edge {
 
     constructor(startVertex, endVertex, weight) {
